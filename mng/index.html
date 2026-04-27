@@ -213,6 +213,71 @@
     font-family: "Instrument Serif", serif; font-style: italic;
   }
 
+  /* ========== BRIEFS — 5 CRÉAS À FAIRE ========== */
+  .briefs-grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 920px) {
+    .briefs-grid { grid-template-columns: repeat(2, 1fr); }
+    .brief:nth-child(1) { grid-column: 1 / -1; }  /* le premier en pleine largeur */
+  }
+  .brief {
+    background: var(--card); border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm); border-radius: 18px;
+    padding: 24px 26px; display: flex; gap: 22px;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+    position: relative; overflow: hidden;
+  }
+  .brief:hover {
+    transform: translateY(-2px); box-shadow: var(--shadow-md);
+    border-color: rgba(0,0,0,.10);
+  }
+  .brief-num {
+    font-family: "Instrument Serif", serif; font-style: italic;
+    font-size: 64px; line-height: .9; color: var(--accent); flex-shrink: 0;
+    font-variant-numeric: tabular-nums; opacity: .85;
+  }
+  .brief-body { flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .brief-concept {
+    font-size: 17px; font-weight: 600; color: var(--ink); margin: 0;
+    letter-spacing: -.3px; line-height: 1.3;
+  }
+  .brief-hook {
+    font-family: "Instrument Serif", serif; font-style: italic;
+    font-size: 19px; color: var(--ink); line-height: 1.35;
+    border-left: 3px solid var(--primary); padding-left: 14px;
+  }
+  .brief-meta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .brief-meta-item {
+    flex: 1; min-width: 200px;
+    background: var(--bg); border-radius: 10px; padding: 9px 13px;
+    font-size: 12.5px; color: var(--ink-2); line-height: 1.45;
+  }
+  .brief-meta-item .lab {
+    display: block; font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--ink-4); margin-bottom: 3px;
+  }
+  .brief-why {
+    font-size: 12.5px; color: var(--ink-3); line-height: 1.55;
+    padding-left: 0;
+  }
+  .brief-why::before { content: "Pourquoi ça marcherait pour MNG  "; color: var(--ink); font-weight: 700; }
+  .brief-source {
+    margin-top: 4px; padding-top: 14px; border-top: 1px dashed var(--line);
+    display: flex; gap: 12px; align-items: center;
+  }
+  .brief-source-img {
+    width: 56px; height: 56px; object-fit: cover; border-radius: 10px;
+    flex-shrink: 0; border: 1px solid var(--line);
+  }
+  .brief-source-text { flex: 1; font-size: 12px; color: var(--ink-3); line-height: 1.45; }
+  .brief-source-label { font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--ink-4); }
+  .brief-source-comp { color: var(--ink-2); }
+
+  @media (max-width: 600px) {
+    .brief { flex-direction: column; gap: 14px; padding: 20px 22px; }
+    .brief-num { font-size: 48px; }
+  }
+
   /* ========== MACRO GRID (concurrents) ========== */
   .macro { margin-bottom: 64px; }
   .grid {
@@ -383,7 +448,7 @@
           <div class="sub">
               Aucun mouvement significatif chez les 9 concurrents trackés. Repos mérité.
           </div>
-          <div class="meta">Run 27/04/2026 19:34 · config <code>mng.yaml</code></div>
+          <div class="meta">Run 27/04/2026 20:49 · config <code>mng.yaml</code></div>
         </div>
         <div class="threat-stack">
           <div class="threat-row" data-lvl="0">
@@ -408,130 +473,241 @@
 
     <!-- ===== ACTIONS DU JOUR ===== -->
 
-    <!-- ===== POURQUOI ÇA MARCHE ===== -->
+    <!-- ===== 🚀 BREAKOUTS RÉCENTS ===== -->
     <section class="winning">
       <div class="section-title">
-        <h2>Pourquoi ça marche</h2>
-        <span class="hint">top 6 créas concurrentes · pattern + questions</span>
+        <h2>🚀 Cassures récentes</h2>
+        <span class="hint">3 créas jeunes qui scale ces 14j</span>
       </div>
       <div class="ads-grid stagger">
-        <article class="winad">
-          <a class="pic" href="https://drinkdyna.com/pages/energie" target="_blank" rel="noopener">
-            <img src="https://medias.trendtrack.io/video/facebook/1456325355833959.mp4" alt="Dyna ad" loading="lazy" referrerpolicy="no-referrer">
-            <div class="meta-strip">
-              <span class="chip">66j</span>
-<span class="chip">799 972 reach</span>            </div>
-          </a>
-          <div class="body">
-            <div class="who">
-              <span class="name">Dyna</span>
-              <span class="domain">drinkdyna.com</span>
-            </div>
-            <div class="quote">« La première alternative au café qui réveille vraiment. »</div>
-            <div class="patterns">
-<span class="pat">USP / différenciation</span>            </div>
-<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents · long-running 66j = winner stable, pas un flash test · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>            <ul class="questions">
-<li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>            </ul>
-          </div>
-        </article>
-        <article class="winad">
-          <a class="pic" href="https://getyourwake.com/" target="_blank" rel="noopener">
-            <img src="https://medias.trendtrack.io/video/facebook/760092836952146.mp4" alt="Wake Nutrition ad" loading="lazy" referrerpolicy="no-referrer">
-            <div class="meta-strip">
-              <span class="chip">45j</span>
-<span class="chip">245 470 reach</span>            </div>
-          </a>
-          <div class="body">
-            <div class="who">
-              <span class="name">Wake Nutrition</span>
-              <span class="domain">getyourwake.com</span>
-            </div>
-            <div class="quote">« Vos retours sont primordiaux. C'est grâce à vous qu'on se rend compte que Wake est une alternative durable pour les personnes qui boivent du café et/ou prenn... »</div>
-<div class="why">long-running 45j = winner stable, pas un flash test · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <LEARN MORE> : éducation/cold — funnel long, ad pour TOFU</div>            <ul class="questions">
-<li>À toi de creuser : audience cible identique à MNG ? L'angle est-il transposable au persona Brainstoorm ?</li>            </ul>
-          </div>
-        </article>
-        <article class="winad">
-          <a class="pic" href="https://getyourwake.com/" target="_blank" rel="noopener">
-            <img src="https://medias.trendtrack.io/video/facebook/2150823655773092.mp4" alt="Wake Nutrition ad" loading="lazy" referrerpolicy="no-referrer">
-            <div class="meta-strip">
-              <span class="chip">46j</span>
-<span class="chip">133 564 reach</span>            </div>
-          </a>
-          <div class="body">
-            <div class="who">
-              <span class="name">Wake Nutrition</span>
-              <span class="domain">getyourwake.com</span>
-            </div>
-            <div class="quote">« Wake est le seul café adaptogène à avoir : 
+<article class="winad">
+  <a class="pic" href="http://bonjourdrink.co/?utm_campaign=%7B%7Bcampaign.name%7D%7D&utm_content=%7B%7Badset.name%7D%7D&terms=%7B%7Bad.name%7D%7D" target="_blank" rel="noopener">
+    <img src="media/9d70d50ac9d336.jpg" alt="Bonjour ad" loading="lazy" referrerpolicy="no-referrer">
+    <div class="meta-strip">
+      <span class="chip">11j</span>
+<span class="chip">57 343 reach</span><span class="chip" style="background: rgba(220,38,38,.92); color: #fff;">↑1231</span>    </div>
+  </a>
+  <div class="body">
+    <div class="who">
+      <span class="name">Bonjour</span>
+      <span class="domain">bonjourdrink.co</span>
+    </div>
+    <div class="quote">« "Mon nouveau secret pour remplacer le café"
+
+Bonjour est un mélange tout-en-un de champignons adaptogènes, d'orge et de cacao:
+
+⚡️ Concentration sans coups d... »</div>
+    <div class="patterns">
+<span class="pat">curiosité / révélation</span><span class="pat">substitution produit</span><span class="pat">pain : stress / cortisol / fatigue</span>    </div>
+<div class="why">promesse d'info exclusive = scroll-stopper, pulsion de découverte + se positionne contre une habitude existante — facilite la décision (swap) + pain explicite = haute intent, audience qui cherche déjà une solution · static design — souvent le format le + rentable en supplément DTC · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>    <ul class="questions">
+<li>Est-ce que cet angle pain résonne avec l'audience Brainstoorm française ? Tester une variation avec ton vocabulaire MNG.</li><li>Le hook 'remplace ton café' est testé chez nous ? Si non, c'est probablement un trou de marché car ils en font des winners.</li>    </ul>
+  </div>
+</article><article class="winad">
+  <a class="pic" href="http://bonjourdrink.co/?utm_campaign=%7B%7Bcampaign.name%7D%7D&utm_content=%7B%7Badset.name%7D%7D&terms=%7B%7Bad.name%7D%7D" target="_blank" rel="noopener">
+    <img src="media/ba90227e59a11d.jpg" alt="Bonjour ad" loading="lazy" referrerpolicy="no-referrer">
+    <div class="meta-strip">
+      <span class="chip">9j</span>
+<span class="chip">9 reach</span><span class="chip" style="background: rgba(220,38,38,.92); color: #fff;">↑439</span>    </div>
+  </a>
+  <div class="body">
+    <div class="who">
+      <span class="name">Bonjour</span>
+      <span class="domain">bonjourdrink.co</span>
+    </div>
+    <div class="quote">« "Mon nouveau secret pour remplacer le café"
+
+Bonjour est un mélange tout-en-un de champignons adaptogènes, d'orge et de cacao:
+
+⚡️ Concentration sans coups d... »</div>
+    <div class="patterns">
+<span class="pat">curiosité / révélation</span><span class="pat">substitution produit</span><span class="pat">pain : stress / cortisol / fatigue</span>    </div>
+<div class="why">promesse d'info exclusive = scroll-stopper, pulsion de découverte + se positionne contre une habitude existante — facilite la décision (swap) + pain explicite = haute intent, audience qui cherche déjà une solution · static design — souvent le format le + rentable en supplément DTC · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>    <ul class="questions">
+<li>Est-ce que cet angle pain résonne avec l'audience Brainstoorm française ? Tester une variation avec ton vocabulaire MNG.</li><li>Le hook 'remplace ton café' est testé chez nous ? Si non, c'est probablement un trou de marché car ils en font des winners.</li>    </ul>
+  </div>
+</article><article class="winad">
+  <a class="pic" href="https://spacegoods.com/products/rainbow-dust-starter-kit" target="_blank" rel="noopener">
+    <img src="media/2c4979a3756fcc.jpg" alt="Spacegoods ad" loading="lazy" referrerpolicy="no-referrer">
+    <div class="meta-strip">
+      <span class="chip">12j</span>
+<span class="chip">99 820 reach</span><span class="chip" style="background: rgba(220,38,38,.92); color: #fff;">↑206</span>    </div>
+  </a>
+  <div class="body">
+    <div class="who">
+      <span class="name">Spacegoods</span>
+      <span class="domain">spacegoods.com</span>
+    </div>
+    <div class="quote">« Reread the same email three times. Walked into a room and forgot why. Lost your train of thought mid-sentence. There's a version of you that doesn't do any o... »</div>
+    <div class="patterns">
+<span class="pat">USP / différenciation</span><span class="pat">promesse cognitive</span>    </div>
+<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents + bénéfice mesurable subjectif → fonctionne sur audience pro/étudiant · static design — souvent le format le + rentable en supplément DTC · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>    <ul class="questions">
+<li>Est-ce que cet angle pain résonne avec l'audience Brainstoorm française ? Tester une variation avec ton vocabulaire MNG.</li><li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>    </ul>
+  </div>
+</article>      </div>
+    </section>
+
+    <!-- ===== 🏆 WINNERS LONG-RUNNING ===== -->
+    <section class="winning">
+      <div class="section-title">
+        <h2>🏆 Winners long-running</h2>
+        <span class="hint">top 3 créas encore live depuis ≥21j</span>
+      </div>
+      <div class="ads-grid stagger">
+<article class="winad">
+  <a class="pic" href="https://drinkdyna.com/pages/energie" target="_blank" rel="noopener">
+    <video src="media/14c19e5aa736b5.mp4" muted loop autoplay playsinline preload="metadata"
+           style="width:100%;height:100%;object-fit:cover;display:block;background:#000;"></video>
+    <div class="meta-strip">
+      <span class="chip">66j</span>
+<span class="chip">799 972 reach</span><span class="chip" style="background: rgba(0,0,0,.75); color: #fff;">▶ vidéo</span>    </div>
+  </a>
+  <div class="body">
+    <div class="who">
+      <span class="name">Dyna</span>
+      <span class="domain">drinkdyna.com</span>
+    </div>
+    <div class="quote">« La première alternative au café qui réveille vraiment. »</div>
+    <div class="patterns">
+<span class="pat">USP / différenciation</span>    </div>
+<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents · long-running 66j = winner stable, pas un flash test · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>    <ul class="questions">
+<li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>    </ul>
+  </div>
+</article><article class="winad">
+  <a class="pic" href="https://getyourwake.com/" target="_blank" rel="noopener">
+    <video src="media/e6662f022bc13d.mp4" muted loop autoplay playsinline preload="metadata"
+           style="width:100%;height:100%;object-fit:cover;display:block;background:#000;"></video>
+    <div class="meta-strip">
+      <span class="chip">45j</span>
+<span class="chip">245 470 reach</span><span class="chip" style="background: rgba(0,0,0,.75); color: #fff;">▶ vidéo</span>    </div>
+  </a>
+  <div class="body">
+    <div class="who">
+      <span class="name">Wake Nutrition</span>
+      <span class="domain">getyourwake.com</span>
+    </div>
+    <div class="quote">« Vos retours sont primordiaux. C'est grâce à vous qu'on se rend compte que Wake est une alternative durable pour les personnes qui boivent du café et/ou prenn... »</div>
+<div class="why">long-running 45j = winner stable, pas un flash test · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <LEARN MORE> : éducation/cold — funnel long, ad pour TOFU</div>    <ul class="questions">
+<li>À toi de creuser : audience cible identique à MNG ? L'angle est-il transposable au persona Brainstoorm ?</li>    </ul>
+  </div>
+</article><article class="winad">
+  <a class="pic" href="https://getyourwake.com/" target="_blank" rel="noopener">
+    <video src="media/7289583da8a6b0.mp4" muted loop autoplay playsinline preload="metadata"
+           style="width:100%;height:100%;object-fit:cover;display:block;background:#000;"></video>
+    <div class="meta-strip">
+      <span class="chip">46j</span>
+<span class="chip">133 564 reach</span><span class="chip" style="background: rgba(220,38,38,.92); color: #fff;">↑1</span><span class="chip" style="background: rgba(0,0,0,.75); color: #fff;">▶ vidéo</span>    </div>
+  </a>
+  <div class="body">
+    <div class="who">
+      <span class="name">Wake Nutrition</span>
+      <span class="domain">getyourwake.com</span>
+    </div>
+    <div class="quote">« Wake est le seul café adaptogène à avoir : 
 ⚖️ 270g au lieu de 180g 
 💪 Collagène marin 1000Da
 🍄‍🟫 Champignons adaptogènes dosés 18:1
 🧬 Vitamines & minéraux 
 ... »</div>
-            <div class="patterns">
-<span class="pat">USP / différenciation</span><span class="pat">substitution produit</span>            </div>
-<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents + se positionne contre une habitude existante — facilite la décision (swap) · long-running 46j = winner stable, pas un flash test · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <LEARN MORE> : éducation/cold — funnel long, ad pour TOFU</div>            <ul class="questions">
-<li>Le hook 'remplace ton café' est testé chez nous ? Si non, c'est probablement un trou de marché car ils en font des winners.</li><li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>            </ul>
-          </div>
-        </article>
-        <article class="winad">
-          <a class="pic" href="https://www.frenchmush.com/products/complexe-5-champignons-menopause?variant=56060062859599" target="_blank" rel="noopener">
-            <img src="https://medias.trendtrack.io/image/facebook/26589069260728799.jpg" alt="French Mush ad" loading="lazy" referrerpolicy="no-referrer">
-            <div class="meta-strip">
-              <span class="chip">45j</span>
-<span class="chip">41 863 reach</span>            </div>
-          </a>
-          <div class="body">
-            <div class="who">
-              <span class="name">French Mush</span>
-              <span class="domain">frenchmush.com</span>
-            </div>
-            <div class="quote">« Je n’ai pas juste mieux vécu ma ménopause, j’ai retrouvé mon équilibre. (French Mush)
+    <div class="patterns">
+<span class="pat">USP / différenciation</span><span class="pat">substitution produit</span>    </div>
+<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents + se positionne contre une habitude existante — facilite la décision (swap) · long-running 46j = winner stable, pas un flash test · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <LEARN MORE> : éducation/cold — funnel long, ad pour TOFU</div>    <ul class="questions">
+<li>Le hook 'remplace ton café' est testé chez nous ? Si non, c'est probablement un trou de marché car ils en font des winners.</li><li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>    </ul>
+  </div>
+</article>      </div>
+    </section>
 
-Un rituel réconfortant qui allie énergie, sérénité et bien-être nature... »</div>
-            <div class="patterns">
-<span class="pat">témoignage 1ère personne</span>            </div>
-<div class="why">narration personnelle = baisse barrière de méfiance, identification immédiate · long-running 45j = winner stable, pas un flash test · static design — souvent le format le + rentable en supplément DTC · FB/IG feed — placement large reach, pas un test niche · CTA <LEARN MORE> : éducation/cold — funnel long, ad pour TOFU</div>            <ul class="questions">
-<li>On a peu de UGC scale — vérifier si Sarah peut sortir 2-3 témoignages format 1ère pers cette semaine.</li>            </ul>
+    <!-- ===== 5 CRÉAS À FAIRE POUR MNG ===== -->
+    <section class="winning briefs">
+      <div class="section-title">
+        <h2>5 créas à faire pour Brainstoorm</h2>
+        <span class="hint">briefs inspirés des concurrents · à passer à Sarah</span>
+      </div>
+      <div class="briefs-grid stagger">
+        <article class="brief">
+          <div class="brief-num">1</div>
+          <div class="brief-body">
+            <h3 class="brief-concept">USP imbattable — Le café le plus dosé de France</h3>
+            <div class="brief-hook">« Le seul café qui contient 6225mg d'adaptogènes par dose. Pas un de moins. »</div>
+            <div class="brief-meta-row">
+              <div class="brief-meta-item"><span class="lab">Format</span>Static design — chiffres en gros, comparatif vs concurrents</div>
+              <div class="brief-meta-item"><span class="lab">Claim</span>6225mg adapto · 3 champis + 3 plantes · NewCaff brevetée</div>
+            </div>
+            <div class="brief-why">Attaque le terrain où on a un vrai chiffre imbattable, donc pas de copie possible des concurrents.</div>
+            <div class="brief-source">
+              <img class="brief-source-img" src="media/14c19e5aa736b5.mp4" alt="" loading="lazy">
+              <div class="brief-source-text">
+                <div class="brief-source-label">Inspiré par</div>
+                <div class="brief-source-comp"><strong>Dyna</strong> · 66j · pattern « USP / différenciation »</div>
+              </div>
+            </div>
           </div>
         </article>
-        <article class="winad">
-          <a class="pic" href="https://drinkdyna.com/pages/energie" target="_blank" rel="noopener">
-            <img src="https://medias.trendtrack.io/video/facebook/1474604520825141.mp4" alt="Dyna ad" loading="lazy" referrerpolicy="no-referrer">
-            <div class="meta-strip">
-              <span class="chip">25j</span>
-<span class="chip">66 075 reach</span>            </div>
-          </a>
-          <div class="body">
-            <div class="who">
-              <span class="name">Dyna</span>
-              <span class="domain">drinkdyna.com</span>
+        <article class="brief">
+          <div class="brief-num">2</div>
+          <div class="brief-body">
+            <h3 class="brief-concept">Switch ton café — la transition douce</h3>
+            <div class="brief-hook">« On a remplacé ton café. Tu vas voir : même rituel, zéro crash, +6225mg d'adaptogènes en bonus. »</div>
+            <div class="brief-meta-row">
+              <div class="brief-meta-item"><span class="lab">Format</span>Video 15s avant/après — main qui prépare un Brainstoorm comme un café normal</div>
+              <div class="brief-meta-item"><span class="lab">Claim</span>Brainstoorm Café (avec Chicorée) · garantie 60j</div>
             </div>
-            <div class="quote">« La première alternative au café qui réveille vraiment. »</div>
-            <div class="patterns">
-<span class="pat">USP / différenciation</span>            </div>
-<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents · 25j de scale = signal de winner émergent · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>            <ul class="questions">
-<li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>            </ul>
+            <div class="brief-why">Se positionne contre une habitude existante (le café du matin) → facilite la décision swap. Pas une nouvelle catégorie à enseigner.</div>
+            <div class="brief-source">
+              <img class="brief-source-img" src="media/7289583da8a6b0.mp4" alt="" loading="lazy">
+              <div class="brief-source-text">
+                <div class="brief-source-label">Inspiré par</div>
+                <div class="brief-source-comp"><strong>Wake Nutrition</strong> · 46j · pattern « substitution produit »</div>
+              </div>
+            </div>
           </div>
         </article>
-        <article class="winad">
-          <a class="pic" href="https://spacegoods.com/products/rainbow-dust-starter-kit" target="_blank" rel="noopener">
-            <img src="https://medias.trendtrack.io/image/facebook/957012717058249.jpg" alt="Spacegoods ad" loading="lazy" referrerpolicy="no-referrer">
-            <div class="meta-strip">
-              <span class="chip">12j</span>
-<span class="chip">99 820 reach</span>            </div>
-          </a>
-          <div class="body">
-            <div class="who">
-              <span class="name">Spacegoods</span>
-              <span class="domain">spacegoods.com</span>
+        <article class="brief">
+          <div class="brief-num">3</div>
+          <div class="brief-body">
+            <h3 class="brief-concept">UGC — 30 jours sur Brainstoorm, mon retour honnête</h3>
+            <div class="brief-hook">« « Au début j'étais sceptique. Au bout de 12 jours, j'ai réalisé que je faisais plus de pauses café. » »</div>
+            <div class="brief-meta-row">
+              <div class="brief-meta-item"><span class="lab">Format</span>UGC vidéo verticale 9:16 — face cam, voix posée, durée 30-45s</div>
+              <div class="brief-meta-item"><span class="lab">Claim</span>Garantie 60 jours satisfait ou remboursé · Brainstoorm Chocolat ou Café</div>
             </div>
-            <div class="quote">« Reread the same email three times. Walked into a room and forgot why. Lost your train of thought mid-sentence. There's a version of you that doesn't do any o... »</div>
-            <div class="patterns">
-<span class="pat">USP / différenciation</span><span class="pat">promesse cognitive</span>            </div>
-<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents + bénéfice mesurable subjectif → fonctionne sur audience pro/étudiant · static design — souvent le format le + rentable en supplément DTC · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>            <ul class="questions">
-<li>Est-ce que cet angle pain résonne avec l'audience Brainstoorm française ? Tester une variation avec ton vocabulaire MNG.</li><li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>            </ul>
+            <div class="brief-why">Identification immédiate, baisse barrière méfiance — fonctionne pour audience FR francophone qui se méfie du marketing supplément.</div>
+            <div class="brief-source">
+              <img class="brief-source-img" src="media/cb92fcc6cde559.jpg" alt="" loading="lazy">
+              <div class="brief-source-text">
+                <div class="brief-source-label">Inspiré par</div>
+                <div class="brief-source-comp"><strong>French Mush</strong> · 45j · pattern « témoignage 1ère personne »</div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="brief">
+          <div class="brief-num">4</div>
+          <div class="brief-body">
+            <h3 class="brief-concept">Focus pour les ambitieux — Lion's Mane + NewCaff</h3>
+            <div class="brief-hook">« Lion's Mane + caféine NewCaff = focus 4-6h sans crash de 15h. C'est de la chimie, pas du marketing. »</div>
+            <div class="brief-meta-row">
+              <div class="brief-meta-item"><span class="lab">Format</span>Static minimaliste type Apple — 1 visuel mug, 1 ligne killer, 1 sub-claim</div>
+              <div class="brief-meta-item"><span class="lab">Claim</span>Lion's Mane · Cordyceps · NewCaff brevetée</div>
+            </div>
+            <div class="brief-why">Cible l'audience pro/founder/étudiant qui paie cher pour focus. Promesse sur durée tangible (4-6h vs crash de 15h).</div>
+            <div class="brief-source">
+              <img class="brief-source-img" src="media/2c4979a3756fcc.jpg" alt="" loading="lazy">
+              <div class="brief-source-text">
+                <div class="brief-source-label">Inspiré par</div>
+                <div class="brief-source-comp"><strong>Spacegoods</strong> · 12j · pattern « promesse cognitive »</div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="brief">
+          <div class="brief-num">5</div>
+          <div class="brief-body">
+            <h3 class="brief-concept">Claim chiffré obsessionnel — 6225mg, 3+3, 60 jours</h3>
+            <div class="brief-hook">« 6225 mg. C'est ce qu'il y a dans 1 dose de Brainstoorm. La moyenne du marché ? 1500. »</div>
+            <div class="brief-meta-row">
+              <div class="brief-meta-item"><span class="lab">Format</span>Static avec gros chiffres + comparatif barre / Wake / Dyna / RYZE</div>
+              <div class="brief-meta-item"><span class="lab">Claim</span>6225mg adapto / dose · vs ~1500mg moyenne marché</div>
+            </div>
+            <div class="brief-why">Concret + quantifiable + benchmarkable = perception preuve scientifique. Difficile à débunker.</div>
           </div>
         </article>
       </div>
@@ -799,8 +975,8 @@ Un rituel réconfortant qui allie énergie, sérénité et bien-être nature... 
     </section>
 
     <footer>
-      <div>Run UTC <code>2026-04-27T19:34:13.009016+00:00</code></div>
-      <div>TrendTrack public API + LP scraping custom · <a href="https://competitive-radar-mng.onrender.com/mng/">URL stable</a></div>
+      <div>Run UTC <code>2026-04-27T20:49:43.995251+00:00</code></div>
+      <div>TrendTrack public API + LP scraping custom · <a href="https://alexandre820.github.io/competitive-radar-mng-pages/mng/">URL stable</a></div>
     </footer>
 
   </div>
