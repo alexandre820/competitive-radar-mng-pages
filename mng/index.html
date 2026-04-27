@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radar Concurrence — Mush n Go — 27/04/2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    /* Apple-inspired light palette */
+    --bg: #F5F5F7;
+    --bg-2: #FBFBFD;
+    --card: #FFFFFF;
+    --card-2: #FAFAFA;
+    --primary: #6D28D9;          /* deeper violet for contrast on light */
+    --primary-soft: rgba(109,40,217,.08);
+    --accent: #D97706;            /* deeper amber for contrast */
+    --accent-soft: rgba(217,119,6,.10);
+    --ink: #1D1D1F;               /* Apple ink */
+    --ink-2: #424245;
+    --ink-3: #6E6E73;
+    --ink-4: #86868B;
+    --line: rgba(0,0,0,.08);
+    --line-2: rgba(0,0,0,.04);
+    --critical: #DC2626;
+    --high: #D97706;
+    --medium: #CA8A04;
+    --low: #6E6E73;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.05);
+    --shadow-lg: 0 16px 40px -12px rgba(0,0,0,.10), 0 4px 12px rgba(0,0,0,.06);
+  }
+  html, body { background: var(--bg); color: var(--ink); margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
+    font-size: 15px; line-height: 1.55; min-height: 100vh;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "cv11";
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(800px 460px at 90% -8%, rgba(109,40,217,.06), transparent 65%),
+      radial-gradient(900px 500px at -10% 0%, rgba(217,119,6,.05), transparent 70%);
+  }
+  a { color: var(--primary); text-decoration: none; transition: opacity .15s; }
+  a:hover { opacity: .75; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 56px 28px 96px; position: relative; z-index: 1; }
+
+  /* ========== HEADER / HERO ========== */
+  .hero { padding-bottom: 40px; border-bottom: 1px solid var(--line); margin-bottom: 48px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 9px; padding: 6px 13px;
+    background: var(--card); color: var(--primary);
+    border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+    border-radius: 999px; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1.4px; margin-bottom: 22px;
+  }
+  .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); animation: pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.85); } }
+
+  .hero-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: end;
+  }
+  .hero h1 {
+    font-family: "Instrument Serif", "Times New Roman", serif;
+    font-style: italic; font-weight: 400;
+    font-size: clamp(46px, 7vw, 80px); line-height: .96; letter-spacing: -2px;
+    margin: 0 0 12px; color: var(--ink);
+  }
+  .hero h1 .accent {
+    color: var(--accent); font-style: normal;
+    font-family: -apple-system, "SF Pro Display", "Inter"; font-weight: 800;
+    font-size: .82em; letter-spacing: -3px;
+  }
+  .hero .sub { color: var(--ink-3); font-size: 16px; font-weight: 400; max-width: 540px; line-height: 1.5; }
+  .hero .meta { color: var(--ink-4); font-size: 12.5px; margin-top: 16px; font-variant-numeric: tabular-nums; }
+
+  .threat-stack { display: flex; flex-direction: column; gap: 8px; min-width: 240px; }
+  .threat-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; border-radius: 12px;
+    background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+    font-size: 13.5px; font-weight: 500;
+    transition: transform .15s ease;
+  }
+  .threat-row:hover { transform: translateX(-2px); }
+  .threat-row .label { display: flex; align-items: center; gap: 10px; color: var(--ink-2); }
+  .threat-row .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .threat-row .count {
+    font-family: "Instrument Serif", serif; font-style: italic;
+    font-size: 24px; font-variant-numeric: tabular-nums; color: var(--ink); line-height: 1;
+  }
+  .threat-row[data-lvl="0"] { opacity: .42; }
+  .threat-row[data-lvl="0"] .count { color: var(--ink-4); }
+
+  /* ========== SECTION TITLE ========== */
+  .section-title { display: flex; align-items: baseline; gap: 14px; margin: 0 0 22px; }
+  .section-title h2 {
+    font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400;
+    font-size: 30px; letter-spacing: -.5px; margin: 0; color: var(--ink);
+  }
+  .section-title .hint {
+    color: var(--ink-4); font-size: 12.5px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 1.2px;
+  }
+
+  /* ========== ACTIONS DU JOUR ========== */
+  .actions { margin-bottom: 56px; }
+  .actions-list { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  .action {
+    background: var(--card); border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm); border-radius: 18px;
+    padding: 22px 26px; position: relative; overflow: hidden;
+    transition: transform .18s ease, box-shadow .18s, border-color .18s;
+  }
+  .action::before {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 3px;
+    background: var(--primary);
+  }
+  .action[data-lvl="CRITICAL"]::before { background: var(--critical); }
+  .action[data-lvl="HIGH"]::before { background: var(--high); }
+  .action[data-lvl="MEDIUM"]::before { background: var(--medium); }
+  .action:hover {
+    transform: translateY(-2px); box-shadow: var(--shadow-md);
+    border-color: rgba(0,0,0,.12);
+  }
+  .action .head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .action .lvl-tag {
+    font-size: 10px; padding: 4px 9px; border-radius: 6px;
+    font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .action .who { font-weight: 600; font-size: 16px; color: var(--ink); }
+  .action .reco { color: var(--ink); font-size: 15px; line-height: 1.5; font-weight: 500; }
+  .action .insight { color: var(--ink-3); font-size: 13.5px; margin-top: 6px; line-height: 1.55; }
+
+  /* ========== WINNING ADS — POURQUOI ÇA MARCHE ========== */
+  .winning { margin-bottom: 64px; }
+  .ads-grid {
+    display: grid; gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+  .winad {
+    background: var(--card); border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm); border-radius: 20px; overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s, border-color .25s;
+    display: flex; flex-direction: column;
+  }
+  .winad:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(0,0,0,.10);
+  }
+  .winad .pic {
+    aspect-ratio: 1; background: linear-gradient(135deg, #f4f4f5, #e4e4e7);
+    position: relative; overflow: hidden; display: block;
+  }
+  .winad .pic img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .6s cubic-bezier(.16,1,.3,1);
+  }
+  .winad:hover .pic img { transform: scale(1.04); }
+  .winad .pic .meta-strip {
+    position: absolute; left: 12px; right: 12px; bottom: 12px;
+    display: flex; gap: 6px; justify-content: space-between; align-items: center;
+    pointer-events: none;
+  }
+  .winad .pic .chip {
+    padding: 5px 10px; border-radius: 7px;
+    background: rgba(255,255,255,.92); color: var(--ink);
+    font-size: 11px; font-weight: 600;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 2px 8px rgba(0,0,0,.10);
+    font-variant-numeric: tabular-nums;
+  }
+  .winad .body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 12px; }
+  .winad .who { display: flex; justify-content: space-between; align-items: baseline; }
+  .winad .who .name { font-weight: 600; font-size: 15px; color: var(--ink); letter-spacing: -.2px; }
+  .winad .who .domain {
+    color: var(--ink-4); font-size: 11.5px; font-variant-numeric: tabular-nums;
+  }
+  .winad .quote {
+    font-family: "Instrument Serif", serif; font-style: italic;
+    font-size: 17px; line-height: 1.4; color: var(--ink);
+    border-left: 2px solid var(--primary); padding-left: 14px; margin: 4px 0 2px;
+  }
+  .winad .patterns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .winad .pat {
+    font-size: 10.5px; padding: 4px 9px; background: var(--primary-soft);
+    color: var(--primary); border-radius: 6px; font-weight: 500; letter-spacing: .1px;
+  }
+  .winad .why {
+    font-size: 12.5px; color: var(--ink-3); line-height: 1.55;
+    padding: 10px 13px; background: var(--bg); border-radius: 10px;
+  }
+  .winad .why::before {
+    content: "Pourquoi ça marche  "; color: var(--ink); font-weight: 700;
+  }
+  .winad .questions {
+    margin-top: 4px; padding-top: 14px; border-top: 1px dashed var(--line);
+    list-style: none; padding-left: 0; margin-bottom: 0;
+  }
+  .winad .questions li {
+    font-size: 13px; color: var(--ink-2); margin: 8px 0; padding-left: 22px;
+    position: relative; line-height: 1.55;
+  }
+  .winad .questions li::before {
+    content: "?"; position: absolute; left: 0; top: -2px;
+    color: var(--accent); font-weight: 800; font-size: 16px;
+    font-family: "Instrument Serif", serif; font-style: italic;
+  }
+
+  /* ========== MACRO GRID (concurrents) ========== */
+  .macro { margin-bottom: 64px; }
+  .grid {
+    display: grid; gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm); border-radius: 16px;
+    padding: 18px; cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s, border-color .18s;
+    position: relative; overflow: hidden;
+    text-decoration: none; color: inherit;
+  }
+  .card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--low); opacity: .8;
+  }
+  .card[data-lvl="CRITICAL"]::before { background: var(--critical); opacity: 1; }
+  .card[data-lvl="HIGH"]::before { background: var(--high); opacity: 1; }
+  .card[data-lvl="MEDIUM"]::before { background: var(--medium); opacity: 1; }
+  .card:hover {
+    transform: translateY(-3px); box-shadow: var(--shadow-md);
+    border-color: rgba(0,0,0,.12);
+  }
+  .card .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 16px; }
+  .card .name { font-weight: 600; font-size: 16px; color: var(--ink); letter-spacing: -.2px; }
+  .card .domain { color: var(--ink-4); font-size: 11.5px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .card .lvl-tag {
+    font-size: 9.5px; padding: 3px 7px; border-radius: 6px;
+    font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .card .stats { display: flex; gap: 18px; align-items: baseline; color: var(--ink-3); font-size: 12.5px; }
+  .card .stats .ic {
+    font-family: "Instrument Serif", serif; font-style: italic;
+    font-size: 24px; color: var(--ink); margin-right: 6px; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ========== DRILLDOWN ========== */
+  .drill { }
+  details.comp {
+    background: var(--card); border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm); border-radius: 18px;
+    padding: 18px 24px; margin-bottom: 12px;
+    transition: box-shadow .15s, border-color .15s;
+  }
+  details.comp[open] {
+    border-color: rgba(0,0,0,.12); box-shadow: var(--shadow-md);
+    padding-bottom: 24px;
+  }
+  details.comp summary {
+    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    gap: 14px; list-style: none; padding: 6px 0;
+  }
+  details.comp summary::-webkit-details-marker { display: none; }
+  details.comp summary .left { display: flex; gap: 10px; align-items: baseline; }
+  details.comp summary .name { font-weight: 600; font-size: 16px; color: var(--ink); letter-spacing: -.2px; }
+  details.comp summary .domain { color: var(--ink-4); font-size: 12px; font-variant-numeric: tabular-nums; }
+  details.comp summary .right { display: flex; gap: 12px; align-items: center; color: var(--ink-3); font-size: 12.5px; }
+  details.comp summary .chev {
+    color: var(--ink-4); transition: transform .25s cubic-bezier(.4,0,.2,1);
+    font-size: 13px;
+  }
+  details.comp[open] summary .chev { transform: rotate(180deg); }
+
+  .change {
+    margin-top: 16px; padding: 16px 18px; border-radius: 14px;
+    background: var(--bg); border: 1px solid var(--line-2);
+    border-left: 3px solid var(--low);
+  }
+  .change[data-lvl="CRITICAL"] { border-left-color: var(--critical); }
+  .change[data-lvl="HIGH"] { border-left-color: var(--high); }
+  .change[data-lvl="MEDIUM"] { border-left-color: var(--medium); }
+  .change .meta {
+    display: flex; gap: 10px; font-size: 11px; color: var(--ink-4);
+    margin-bottom: 8px; align-items: center;
+  }
+  .change .dim {
+    padding: 3px 8px; border-radius: 6px; background: var(--card);
+    text-transform: uppercase; letter-spacing: .8px; font-weight: 600;
+    font-size: 9.5px; color: var(--ink-2); border: 1px solid var(--line);
+  }
+  .change .summary { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+  .change .insight { color: var(--ink-2); font-size: 13.5px; }
+  .change .reco {
+    color: var(--primary); font-size: 13.5px; margin-top: 8px;
+    padding: 10px 14px; background: var(--primary-soft);
+    border-radius: 10px; line-height: 1.5; font-weight: 500;
+  }
+  .change .reco::before { content: "→ "; opacity: .7; }
+  .change .hooks { margin: 10px 0 0; padding-left: 18px; }
+  .change .hooks li { color: var(--ink-2); font-size: 13px; margin: 4px 0; line-height: 1.55; }
+  .change .hooks li::marker { color: var(--ink-4); }
+
+  /* Ads gallery dans le drilldown */
+  .ads-strip {
+    display: grid; gap: 12px; margin-top: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  .ad-thumb {
+    border-radius: 12px; overflow: hidden; background: var(--bg-2);
+    border: 1px solid var(--line); aspect-ratio: 1; position: relative;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: var(--shadow-sm);
+  }
+  .ad-thumb:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .ad-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ad-thumb .badge {
+    position: absolute; top: 8px; right: 8px; font-size: 10px; padding: 3px 7px;
+    background: rgba(255,255,255,.92); color: var(--ink); border-radius: 6px;
+    font-weight: 600; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  }
+
+  .empty { color: var(--ink-4); font-style: italic; font-size: 13.5px; padding: 14px 0; }
+
+  /* ========== FOOTER ========== */
+  footer {
+    margin-top: 72px; padding-top: 28px; border-top: 1px solid var(--line);
+    color: var(--ink-4); font-size: 12px; display: flex; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; font-variant-numeric: tabular-nums;
+  }
+  footer code {
+    background: var(--card); padding: 3px 7px; border-radius: 5px;
+    border: 1px solid var(--line); color: var(--ink-3); font-family: "SF Mono", Menlo, monospace;
+    font-size: 11px;
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 820px) {
+    .wrap { padding: 32px 18px 70px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+    .hero h1 { font-size: clamp(40px, 11vw, 60px); }
+    .threat-stack { min-width: unset; }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .ads-grid { grid-template-columns: 1fr; }
+    .ads-strip { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 440px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  /* Stagger fade-in */
+  .stagger > * { opacity: 0; transform: translateY(10px); animation: fadeIn .55s cubic-bezier(.16,1,.3,1) forwards; }
+  .stagger > *:nth-child(1) { animation-delay: .04s; }
+  .stagger > *:nth-child(2) { animation-delay: .08s; }
+  .stagger > *:nth-child(3) { animation-delay: .12s; }
+  .stagger > *:nth-child(4) { animation-delay: .16s; }
+  .stagger > *:nth-child(5) { animation-delay: .20s; }
+  .stagger > *:nth-child(6) { animation-delay: .24s; }
+  .stagger > *:nth-child(7) { animation-delay: .28s; }
+  .stagger > *:nth-child(8) { animation-delay: .32s; }
+  .stagger > *:nth-child(9) { animation-delay: .36s; }
+  .stagger > *:nth-child(n+10) { animation-delay: .4s; }
+  @keyframes fadeIn { to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <span class="eyebrow">Mush n Go · radar concurrence</span>
+      <div class="hero-grid">
+        <div>
+          <h1>27/04/2026<br><span class="accent">0</span> changes détectés</h1>
+          <div class="sub">
+              Aucun mouvement significatif chez les 9 concurrents trackés. Repos mérité.
+          </div>
+          <div class="meta">Run 27/04/2026 19:34 · config <code>mng.yaml</code></div>
+        </div>
+        <div class="threat-stack">
+          <div class="threat-row" data-lvl="0">
+            <div class="label"><span class="dot" style="background: var(--critical);"></span>CRITICAL</div>
+            <div class="count">0</div>
+          </div>
+          <div class="threat-row" data-lvl="0">
+            <div class="label"><span class="dot" style="background: var(--high);"></span>HIGH</div>
+            <div class="count">0</div>
+          </div>
+          <div class="threat-row" data-lvl="0">
+            <div class="label"><span class="dot" style="background: var(--medium);"></span>MEDIUM</div>
+            <div class="count">0</div>
+          </div>
+          <div class="threat-row" data-lvl="0">
+            <div class="label"><span class="dot" style="background: var(--low);"></span>LOW</div>
+            <div class="count">0</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ACTIONS DU JOUR ===== -->
+
+    <!-- ===== POURQUOI ÇA MARCHE ===== -->
+    <section class="winning">
+      <div class="section-title">
+        <h2>Pourquoi ça marche</h2>
+        <span class="hint">top 6 créas concurrentes · pattern + questions</span>
+      </div>
+      <div class="ads-grid stagger">
+        <article class="winad">
+          <a class="pic" href="https://drinkdyna.com/pages/energie" target="_blank" rel="noopener">
+            <img src="https://medias.trendtrack.io/video/facebook/1456325355833959.mp4" alt="Dyna ad" loading="lazy" referrerpolicy="no-referrer">
+            <div class="meta-strip">
+              <span class="chip">66j</span>
+<span class="chip">799 972 reach</span>            </div>
+          </a>
+          <div class="body">
+            <div class="who">
+              <span class="name">Dyna</span>
+              <span class="domain">drinkdyna.com</span>
+            </div>
+            <div class="quote">« La première alternative au café qui réveille vraiment. »</div>
+            <div class="patterns">
+<span class="pat">USP / différenciation</span>            </div>
+<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents · long-running 66j = winner stable, pas un flash test · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>            <ul class="questions">
+<li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>            </ul>
+          </div>
+        </article>
+        <article class="winad">
+          <a class="pic" href="https://getyourwake.com/" target="_blank" rel="noopener">
+            <img src="https://medias.trendtrack.io/video/facebook/760092836952146.mp4" alt="Wake Nutrition ad" loading="lazy" referrerpolicy="no-referrer">
+            <div class="meta-strip">
+              <span class="chip">45j</span>
+<span class="chip">245 470 reach</span>            </div>
+          </a>
+          <div class="body">
+            <div class="who">
+              <span class="name">Wake Nutrition</span>
+              <span class="domain">getyourwake.com</span>
+            </div>
+            <div class="quote">« Vos retours sont primordiaux. C'est grâce à vous qu'on se rend compte que Wake est une alternative durable pour les personnes qui boivent du café et/ou prenn... »</div>
+<div class="why">long-running 45j = winner stable, pas un flash test · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <LEARN MORE> : éducation/cold — funnel long, ad pour TOFU</div>            <ul class="questions">
+<li>À toi de creuser : audience cible identique à MNG ? L'angle est-il transposable au persona Brainstoorm ?</li>            </ul>
+          </div>
+        </article>
+        <article class="winad">
+          <a class="pic" href="https://getyourwake.com/" target="_blank" rel="noopener">
+            <img src="https://medias.trendtrack.io/video/facebook/2150823655773092.mp4" alt="Wake Nutrition ad" loading="lazy" referrerpolicy="no-referrer">
+            <div class="meta-strip">
+              <span class="chip">46j</span>
+<span class="chip">133 564 reach</span>            </div>
+          </a>
+          <div class="body">
+            <div class="who">
+              <span class="name">Wake Nutrition</span>
+              <span class="domain">getyourwake.com</span>
+            </div>
+            <div class="quote">« Wake est le seul café adaptogène à avoir : 
+⚖️ 270g au lieu de 180g 
+💪 Collagène marin 1000Da
+🍄‍🟫 Champignons adaptogènes dosés 18:1
+🧬 Vitamines & minéraux 
+... »</div>
+            <div class="patterns">
+<span class="pat">USP / différenciation</span><span class="pat">substitution produit</span>            </div>
+<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents + se positionne contre une habitude existante — facilite la décision (swap) · long-running 46j = winner stable, pas un flash test · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <LEARN MORE> : éducation/cold — funnel long, ad pour TOFU</div>            <ul class="questions">
+<li>Le hook 'remplace ton café' est testé chez nous ? Si non, c'est probablement un trou de marché car ils en font des winners.</li><li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>            </ul>
+          </div>
+        </article>
+        <article class="winad">
+          <a class="pic" href="https://www.frenchmush.com/products/complexe-5-champignons-menopause?variant=56060062859599" target="_blank" rel="noopener">
+            <img src="https://medias.trendtrack.io/image/facebook/26589069260728799.jpg" alt="French Mush ad" loading="lazy" referrerpolicy="no-referrer">
+            <div class="meta-strip">
+              <span class="chip">45j</span>
+<span class="chip">41 863 reach</span>            </div>
+          </a>
+          <div class="body">
+            <div class="who">
+              <span class="name">French Mush</span>
+              <span class="domain">frenchmush.com</span>
+            </div>
+            <div class="quote">« Je n’ai pas juste mieux vécu ma ménopause, j’ai retrouvé mon équilibre. (French Mush)
+
+Un rituel réconfortant qui allie énergie, sérénité et bien-être nature... »</div>
+            <div class="patterns">
+<span class="pat">témoignage 1ère personne</span>            </div>
+<div class="why">narration personnelle = baisse barrière de méfiance, identification immédiate · long-running 45j = winner stable, pas un flash test · static design — souvent le format le + rentable en supplément DTC · FB/IG feed — placement large reach, pas un test niche · CTA <LEARN MORE> : éducation/cold — funnel long, ad pour TOFU</div>            <ul class="questions">
+<li>On a peu de UGC scale — vérifier si Sarah peut sortir 2-3 témoignages format 1ère pers cette semaine.</li>            </ul>
+          </div>
+        </article>
+        <article class="winad">
+          <a class="pic" href="https://drinkdyna.com/pages/energie" target="_blank" rel="noopener">
+            <img src="https://medias.trendtrack.io/video/facebook/1474604520825141.mp4" alt="Dyna ad" loading="lazy" referrerpolicy="no-referrer">
+            <div class="meta-strip">
+              <span class="chip">25j</span>
+<span class="chip">66 075 reach</span>            </div>
+          </a>
+          <div class="body">
+            <div class="who">
+              <span class="name">Dyna</span>
+              <span class="domain">drinkdyna.com</span>
+            </div>
+            <div class="quote">« La première alternative au café qui réveille vraiment. »</div>
+            <div class="patterns">
+<span class="pat">USP / différenciation</span>            </div>
+<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents · 25j de scale = signal de winner émergent · video — plus de coût mais top-of-funnel + retention · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>            <ul class="questions">
+<li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>            </ul>
+          </div>
+        </article>
+        <article class="winad">
+          <a class="pic" href="https://spacegoods.com/products/rainbow-dust-starter-kit" target="_blank" rel="noopener">
+            <img src="https://medias.trendtrack.io/image/facebook/957012717058249.jpg" alt="Spacegoods ad" loading="lazy" referrerpolicy="no-referrer">
+            <div class="meta-strip">
+              <span class="chip">12j</span>
+<span class="chip">99 820 reach</span>            </div>
+          </a>
+          <div class="body">
+            <div class="who">
+              <span class="name">Spacegoods</span>
+              <span class="domain">spacegoods.com</span>
+            </div>
+            <div class="quote">« Reread the same email three times. Walked into a room and forgot why. Lost your train of thought mid-sentence. There's a version of you that doesn't do any o... »</div>
+            <div class="patterns">
+<span class="pat">USP / différenciation</span><span class="pat">promesse cognitive</span>            </div>
+<div class="why">positionnement par rareté → réduit la comparaison directe avec concurrents + bénéfice mesurable subjectif → fonctionne sur audience pro/étudiant · static design — souvent le format le + rentable en supplément DTC · FB/IG feed — placement large reach, pas un test niche · CTA <SHOP NOW> : achat direct — funnel court, ad qui assume haute intent</div>            <ul class="questions">
+<li>Est-ce que cet angle pain résonne avec l'audience Brainstoorm française ? Tester une variation avec ton vocabulaire MNG.</li><li>Quel est NOTRE USP imbattable cette semaine ? (le café le + dosé de France ? 6225mg adapto ?). Re-tester sur new ads.</li>            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== VUE MACRO ===== -->
+    <section class="macro">
+      <div class="section-title">
+        <h2>Vue macro</h2>
+        <span class="hint">9 concurrents · cliquer ↓</span>
+      </div>
+      <div class="grid stagger">
+        <a class="card" href="#comp-1" data-lvl="LOW">
+          <div class="top">
+            <div>
+              <div class="name">Dyna</div>
+              <div class="domain">drinkdyna.com</div>
+            </div>
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280;">LOW</span>
+          </div>
+          <div class="stats">
+            <div><span class="ic">0</span>changes</div>
+            <div><span class="ic">43</span>ads</div>
+          </div>
+        </a>
+        <a class="card" href="#comp-2" data-lvl="LOW">
+          <div class="top">
+            <div>
+              <div class="name">French Mush</div>
+              <div class="domain">frenchmush.com</div>
+            </div>
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280;">LOW</span>
+          </div>
+          <div class="stats">
+            <div><span class="ic">0</span>changes</div>
+            <div><span class="ic">1</span>ads</div>
+          </div>
+        </a>
+        <a class="card" href="#comp-3" data-lvl="LOW">
+          <div class="top">
+            <div>
+              <div class="name">Bonjour</div>
+              <div class="domain">bonjourdrink.co</div>
+            </div>
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280;">LOW</span>
+          </div>
+          <div class="stats">
+            <div><span class="ic">0</span>changes</div>
+            <div><span class="ic">1 210</span>ads</div>
+          </div>
+        </a>
+        <a class="card" href="#comp-4" data-lvl="LOW">
+          <div class="top">
+            <div>
+              <div class="name">Everyday Dose</div>
+              <div class="domain">everydaydose.com</div>
+            </div>
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280;">LOW</span>
+          </div>
+          <div class="stats">
+            <div><span class="ic">0</span>changes</div>
+            <div><span class="ic">287</span>ads</div>
+          </div>
+        </a>
+        <a class="card" href="#comp-5" data-lvl="LOW">
+          <div class="top">
+            <div>
+              <div class="name">Spacegoods</div>
+              <div class="domain">spacegoods.com</div>
+            </div>
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280;">LOW</span>
+          </div>
+          <div class="stats">
+            <div><span class="ic">0</span>changes</div>
+            <div><span class="ic">308</span>ads</div>
+          </div>
+        </a>
+        <a class="card" href="#comp-6" data-lvl="LOW">
+          <div class="top">
+            <div>
+              <div class="name">Nutrops</div>
+              <div class="domain">nutrops.co</div>
+            </div>
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280;">LOW</span>
+          </div>
+          <div class="stats">
+            <div><span class="ic">0</span>changes</div>
+            <div><span class="ic">178</span>ads</div>
+          </div>
+        </a>
+        <a class="card" href="#comp-7" data-lvl="LOW">
+          <div class="top">
+            <div>
+              <div class="name">Four Sigmatic</div>
+              <div class="domain">foursigmatic.com</div>
+            </div>
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280;">LOW</span>
+          </div>
+          <div class="stats">
+            <div><span class="ic">0</span>changes</div>
+            <div><span class="ic">47</span>ads</div>
+          </div>
+        </a>
+        <a class="card" href="#comp-8" data-lvl="LOW">
+          <div class="top">
+            <div>
+              <div class="name">Wake Nutrition</div>
+              <div class="domain">getyourwake.com</div>
+            </div>
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280;">LOW</span>
+          </div>
+          <div class="stats">
+            <div><span class="ic">0</span>changes</div>
+            <div><span class="ic">142</span>ads</div>
+          </div>
+        </a>
+        <a class="card" href="#comp-9" data-lvl="LOW">
+          <div class="top">
+            <div>
+              <div class="name">Clearly</div>
+              <div class="domain">clearly.fr</div>
+            </div>
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280;">LOW</span>
+          </div>
+          <div class="stats">
+            <div><span class="ic">0</span>changes</div>
+            <div><span class="ic">0</span>ads</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== DRILLDOWN ===== -->
+    <section class="drill">
+      <div class="section-title">
+        <h2>Détail par concurrent</h2>
+        <span class="hint">CRITICAL et HIGH ouverts par défaut</span>
+      </div>
+      <details class="comp" id="comp-1" >
+        <summary>
+          <div class="left">
+            <span class="name">Dyna</span>
+            <span class="domain">· drinkdyna.com</span>
+          </div>
+          <div class="right">
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280; padding: 4px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">LOW</span>
+            <span>0 changes</span>
+            <span class="chev">▾</span>
+          </div>
+        </summary>
+          <div class="empty">Aucun changement détecté aujourd'hui.</div>
+      </details>
+      <details class="comp" id="comp-2" >
+        <summary>
+          <div class="left">
+            <span class="name">French Mush</span>
+            <span class="domain">· frenchmush.com</span>
+          </div>
+          <div class="right">
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280; padding: 4px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">LOW</span>
+            <span>0 changes</span>
+            <span class="chev">▾</span>
+          </div>
+        </summary>
+          <div class="empty">Aucun changement détecté aujourd'hui.</div>
+      </details>
+      <details class="comp" id="comp-3" >
+        <summary>
+          <div class="left">
+            <span class="name">Bonjour</span>
+            <span class="domain">· bonjourdrink.co</span>
+          </div>
+          <div class="right">
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280; padding: 4px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">LOW</span>
+            <span>0 changes</span>
+            <span class="chev">▾</span>
+          </div>
+        </summary>
+          <div class="empty">Aucun changement détecté aujourd'hui.</div>
+      </details>
+      <details class="comp" id="comp-4" >
+        <summary>
+          <div class="left">
+            <span class="name">Everyday Dose</span>
+            <span class="domain">· everydaydose.com</span>
+          </div>
+          <div class="right">
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280; padding: 4px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">LOW</span>
+            <span>0 changes</span>
+            <span class="chev">▾</span>
+          </div>
+        </summary>
+          <div class="empty">Aucun changement détecté aujourd'hui.</div>
+      </details>
+      <details class="comp" id="comp-5" >
+        <summary>
+          <div class="left">
+            <span class="name">Spacegoods</span>
+            <span class="domain">· spacegoods.com</span>
+          </div>
+          <div class="right">
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280; padding: 4px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">LOW</span>
+            <span>0 changes</span>
+            <span class="chev">▾</span>
+          </div>
+        </summary>
+          <div class="empty">Aucun changement détecté aujourd'hui.</div>
+      </details>
+      <details class="comp" id="comp-6" >
+        <summary>
+          <div class="left">
+            <span class="name">Nutrops</span>
+            <span class="domain">· nutrops.co</span>
+          </div>
+          <div class="right">
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280; padding: 4px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">LOW</span>
+            <span>0 changes</span>
+            <span class="chev">▾</span>
+          </div>
+        </summary>
+          <div class="empty">Aucun changement détecté aujourd'hui.</div>
+      </details>
+      <details class="comp" id="comp-7" >
+        <summary>
+          <div class="left">
+            <span class="name">Four Sigmatic</span>
+            <span class="domain">· foursigmatic.com</span>
+          </div>
+          <div class="right">
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280; padding: 4px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">LOW</span>
+            <span>0 changes</span>
+            <span class="chev">▾</span>
+          </div>
+        </summary>
+          <div class="empty">Aucun changement détecté aujourd'hui.</div>
+      </details>
+      <details class="comp" id="comp-8" >
+        <summary>
+          <div class="left">
+            <span class="name">Wake Nutrition</span>
+            <span class="domain">· getyourwake.com</span>
+          </div>
+          <div class="right">
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280; padding: 4px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">LOW</span>
+            <span>0 changes</span>
+            <span class="chev">▾</span>
+          </div>
+        </summary>
+          <div class="empty">Aucun changement détecté aujourd'hui.</div>
+      </details>
+      <details class="comp" id="comp-9" >
+        <summary>
+          <div class="left">
+            <span class="name">Clearly</span>
+            <span class="domain">· clearly.fr</span>
+          </div>
+          <div class="right">
+            <span class="lvl-tag" style="background: #6B72801A; color: #6B7280; padding: 4px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">LOW</span>
+            <span>0 changes</span>
+            <span class="chev">▾</span>
+          </div>
+        </summary>
+          <div class="empty">Aucun changement détecté aujourd'hui.</div>
+      </details>
+    </section>
+
+    <footer>
+      <div>Run UTC <code>2026-04-27T19:34:13.009016+00:00</code></div>
+      <div>TrendTrack public API + LP scraping custom · <a href="https://competitive-radar-mng.onrender.com/mng/">URL stable</a></div>
+    </footer>
+
+  </div>
+</body>
+</html>
